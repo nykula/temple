@@ -171,3 +171,48 @@ $expected = implode('', [
 
 $result = stringify($root);
 it('serializes the TodoApp example', $result === $expected);
+
+//
+
+$paragraphs = [
+  'Portland tofu paleo locavore, farm-to-table four dollar toast godard shabby chic knausgaard dreamcatcher.',
+  'Gochujang shoreditch messenger bag migas, portland VHS kinfolk farm-to-table sustainable schlitz pour-over fixie beard bitters organic.',
+  'Ugh photo booth retro, tacos bespoke twee kickstarter truffaut polaroid vice organic williamsburg blue bottle.',
+];
+
+$root = (
+  t('article', [
+    t('h1', 'Seitan taxidermy art party letterpress whatever'),
+    array_map(function ($paragraph) {
+      return t('p', $paragraph);
+    }, $paragraphs),
+    t('p.more', [
+      t('a', [ 'href' => '#' ], 'Read more'),
+    ]),
+  ])
+);
+
+$expected = implode('', [
+  '<article>',
+  '<h1>',
+  'Seitan taxidermy art party letterpress whatever',
+  '</h1>',
+  '<p>',
+  'Portland tofu paleo locavore, farm-to-table four dollar toast godard shabby chic knausgaard dreamcatcher.',
+  '</p>',
+  '<p>',
+  'Gochujang shoreditch messenger bag migas, portland VHS kinfolk farm-to-table sustainable schlitz pour-over fixie beard bitters organic.',
+  '</p>',
+  '<p>',
+  'Ugh photo booth retro, tacos bespoke twee kickstarter truffaut polaroid vice organic williamsburg blue bottle.',
+  '</p>',
+  '<p class="more">',
+  '<a href="#">',
+  'Read more',
+  '</a>',
+  '</p>',
+  '</article>',
+]);
+
+$result = stringify($root);
+it('allows array as a child', $result === $expected);

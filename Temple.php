@@ -85,6 +85,11 @@ function stringify($node) {
     return $node;
   }
 
+  if (is_array($node) && isSequential($node)) {
+    $nodes = $node;
+    return implode('', array_map(__NAMESPACE__ . '\stringify', $nodes));
+  }
+
   $attrs = '';
 
   if (!empty($node['attrs'])) {
