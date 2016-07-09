@@ -2,6 +2,7 @@
 require_once(dirname(__FILE__) . '/Temple.php');
 use function Temple\stringify;
 use function Temple\t;
+use function Temple\trust;
 
 require_once(dirname(__FILE__) . '/Examples/TodoApp.php');
 use function Temple\Examples\TodoApp\State;
@@ -216,3 +217,25 @@ $expected = implode('', [
 
 $result = stringify($root);
 it('allows array as a child', $result === $expected);
+
+//
+
+echo "\n";
+echo '## trust($string)' . "\n\n";
+
+$root = (
+  t('p', [
+    '<script>alert("&)");</script>',
+    trust('<script>alert(":|");</script>'),
+  ])
+);
+
+$expected = implode('', [
+  '<p>',
+  '&lt;script&gt;alert(&quot;&amp;)&quot;);&lt;/script&gt;',
+  '<script>alert(":|");</script>',
+  '</p>',
+]);
+
+$result = stringify($root);
+it('instructs stringify not to escape special chars', $result === $expected);

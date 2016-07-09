@@ -59,6 +59,7 @@ function t($selector, $attrs = null, $children = null) {
     'attrs' => $attrs,
     'children' => $children,
     'tag' => $tag,
+    'type' => 'tag',
   ];
 }
 
@@ -82,12 +83,16 @@ function stringifyAttrs($attrs) {
 
 function stringify($node) {
   if (is_string($node)) {
-    return $node;
+    return htmlspecialchars($node);
   }
 
   if (is_array($node) && isSequential($node)) {
     $nodes = $node;
     return implode('', array_map(__NAMESPACE__ . '\stringify', $nodes));
+  }
+
+  if ($node['type'] === 'text') {
+    return $node['data'];
   }
 
   $attrs = '';
@@ -117,4 +122,11 @@ function stringify($node) {
     $children .
     '</' . $tag . '>'
   );
+}
+
+function trust($string) {
+  return [
+    'data' => $string,
+    'type' => 'text',
+  ];
 }

@@ -12,7 +12,7 @@ function State() {
   return [
     'title' => [
       'punch' => 'Temple',
-      'sub' => 'Actually use PHP as a template engine',
+      'sub' => 'Actually use PHP as a <strong>template engine</strong>',
     ],
   ];
 }
@@ -28,7 +28,7 @@ function TmplWrap($state) {
             t('div.tmpl-header-brand-title', [
               t('a', [ 'href' => '#' ], [
                 t('h1.tmpl-header-brand-title__punch', $title['punch']),
-                t('p.tmpl-header-brand-title__sub', $title['sub']),
+                t('p.tmpl-header-brand-title__sub', trust($title['sub'])),
               ]),
             ]),
           ]),
