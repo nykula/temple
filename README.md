@@ -44,8 +44,10 @@ $root = TmplWrap($state);
 echo '<!DOCTYPE html>';
 echo '<meta charset="utf-8" />';
 echo '<title>Temple</title>';
-echo stringify($root);
 echo '<script>window.__INITIAL_STATE__ = ' . json_encode($state) . '</script>';
+echo '<div id="app">';
+echo stringify($root);
+echo '</div>';
 echo "\n";
 ```
 

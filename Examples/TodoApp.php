@@ -10,17 +10,14 @@ function State() {
     'todos' => [
       [
         'done' => true,
-        'id' => 0,
         'text' => 'Wake up',
       ],
       [
         'done' => false,
-        'id' => 1,
         'text' => 'Drink coffee',
       ],
       [
         'done' => true,
-        'id' => 2,
         'text' => 'Take shower',
       ],
     ],
@@ -36,7 +33,7 @@ function TodoListEntry($todo) {
           'type' => 'checkbox'
         ]),
         ' ',
-        t('span.todo-list-entry', $todo['text']),
+        t('span.todo-list-entry-text', $todo['text']),
       ]),
     ])
   );
@@ -46,10 +43,10 @@ function TodoList($state) {
   return t('.todo-list', array_map(__NAMESPACE__ . '\TodoListEntry', $state['todos']));
 }
 
-function TodoForm($state) {
+function TodoForm() {
   return (
     t('form.todo-form', [
-      t('input.todo-form-control', [
+      t('input.todo-form-text', [
         'placeholder' => 'Create a todo',
         'title' => 'Todo text',
         'type' => 'text',
@@ -62,7 +59,7 @@ function TodoForm($state) {
 function TodoApp($state) {
   return (
     t('.todo-app', [
-      TodoForm($state),
+      TodoForm(),
       TodoList($state),
     ])
   );
