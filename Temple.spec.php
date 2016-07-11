@@ -1,15 +1,16 @@
 <?php
 require_once(dirname(__FILE__) . '/Temple.php');
-use function Temple\stringify;
-use function Temple\t;
-use function Temple\trust;
+use Temple\Temple;
 
 require_once(dirname(__FILE__) . '/Examples/TodoApp.php');
-use function Temple\Examples\TodoApp\State;
-use function Temple\Examples\TodoApp\TodoApp;
+use Temple\Examples\TodoApp\TodoApp;
 
 function it($message, $assertion) {
   echo '[' . ($assertion ? 'x' : ' ') . '] ' . $message . "\n";
+}
+
+function t($selector, $attrs = null, $children = null) {
+  return Temple::t($selector, $attrs, $children);
 }
 
 //
@@ -25,7 +26,7 @@ echo '## t($selector, $attrs?, $children?)' . "\n\n";
 $root = t('div', 'Hello world');
 $expected = '<div>Hello world</div>';
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('creates `div` with text', $result === $expected);
 
 //
@@ -35,7 +36,7 @@ $root = t('div', [
 ]);
 $expected = '<div>Hello world</div>';
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('creates `div` with text[1]', $result === $expected);
 
 //
@@ -47,7 +48,7 @@ $root = t('div', [
 ]);
 $expected = '<div>Hello world</div>';
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('creates `div` with text[3]', $result === $expected);
 
 //
@@ -55,7 +56,7 @@ it('creates `div` with text[3]', $result === $expected);
 $root = t('a', [ 'href' => 'about:blank' ], 'Home');
 $expected = '<a href="about:blank">Home</a>';
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('creates `a` with `href` and text', $result === $expected);
 
 //
@@ -64,7 +65,7 @@ $isBig = true;
 $root = t('.tmpl-hr' . ($isBig ? '.tmpl-hr--big' : ''));
 $expected = '<div class="tmpl-hr' . ($isBig ? ' tmpl-hr--big' : '') . '"></div>';
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('creates `div` (explicitly) with classes', $result === $expected);
 
 //
@@ -73,13 +74,13 @@ $isBig = true;
 $root = t('.tmpl-hr' . ($isBig ? '.tmpl-hr--big' : ''));
 $expected = '<div class="tmpl-hr' . ($isBig ? ' tmpl-hr--big' : '') . '"></div>';
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('creates `div` (implicitly) with classes', $result === $expected);
 
 //
 
 echo "\n";
-echo '## stringify($node)' . "\n\n";
+echo '## Temple::stringify($node)' . "\n\n";
 
 //
 
@@ -121,13 +122,13 @@ $expected = implode('', [
   '</div>',
 ]);
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('serializes nested structure created with t()', $result === $expected);
 
 //
 
-$state = State();
-$root = TodoApp($state);
+$state = TodoApp::State();
+$root = TodoApp::TodoApp($state);
 
 $expected = implode('', [
   '<div class="todo-app">',
@@ -170,7 +171,7 @@ $expected = implode('', [
   '</div>',
 ]);
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('serializes the TodoApp example', $result === $expected);
 
 //
@@ -215,7 +216,7 @@ $expected = implode('', [
   '</article>',
 ]);
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('allows array as a child', $result === $expected);
 
 //
@@ -226,7 +227,7 @@ echo '## trust($string)' . "\n\n";
 $root = (
   t('p', [
     '<script>alert("&)");</script>',
-    trust('<script>alert(":|");</script>'),
+    Temple::trust('<script>alert(":|");</script>'),
   ])
 );
 
@@ -237,5 +238,5 @@ $expected = implode('', [
   '</p>',
 ]);
 
-$result = stringify($root);
+$result = Temple::stringify($root);
 it('instructs stringify not to escape special chars', $result === $expected);
