@@ -1,7 +1,8 @@
 <?php
 require_once(dirname(__FILE__) . '/../Temple.php');
 require_once(dirname(__FILE__) . '/TodoApp.php');
-use Temple\Examples\TodoApp;
+use Temple\Temple;
+use Temple\Examples\TodoApp\TodoApp;
 
 $state = TodoApp::State();
 $todoApp = TodoApp::TodoApp($state);
