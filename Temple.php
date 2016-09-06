@@ -2,6 +2,25 @@
 namespace Temple;
 
 class Temple {
+  private static $voidTags = [
+    'area',
+    'base',
+    'br',
+    'col',
+    'command',
+    'embed',
+    'hr',
+    'img',
+    'input',
+    'keygen',
+    'link',
+    'meta',
+    'param',
+    'source',
+    'track',
+    'wbr',
+  ];
+
   private static function isSequential($array) {
     return array_keys($array) === range(0, count($array) - 1);
   }
@@ -108,8 +127,8 @@ class Temple {
 
     $tag = $node['tag'];
 
-    if ($tag === 'br') {
-      return '<' . $tag . $attrs . '/>';
+    if (in_array($tag, Temple::$voidTags)) {
+      return '<' . $tag . $attrs . ' />';
     }
 
     $children = '';
