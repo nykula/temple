@@ -83,6 +83,10 @@ class Temple {
   }
 
   public static function stringify($node) {
+    if ($node === null) {
+      return '';
+    }
+
     if (is_string($node)) {
       return htmlspecialchars($node);
     }
